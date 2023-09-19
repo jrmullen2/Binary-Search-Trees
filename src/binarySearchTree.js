@@ -38,6 +38,26 @@ export default class BinaryST {
   find(value) {
     return findNode(this._root, value);
   }
+  levelOrder(func) {
+    if (this._root === null) {
+      return;
+    }
+    //Setting up queue
+    let queue = [];
+    queue.push(this._root);
+    while (queue.length !== 0) {
+      let currentNode = queue[0];
+      func(currentNode);
+      //Adding nodes to queue
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+      queue.shift();
+    }
+  }
 }
 function buildTree(arr, start, end) {
   if (start > end) {
