@@ -58,6 +58,49 @@ export default class BinaryST {
       queue.shift();
     }
   }
+  preorder(func, root = this._root) {
+    if (!root) {
+      return;
+    }
+    func(root);
+    this.preorder(func, root.left);
+    this.preorder(func, root.right);
+  }
+  inorder(func, root = this._root) {
+    if (!root) {
+      return;
+    }
+    this.inorder(func, root.left);
+    func(root);
+    this.inorder(func, root.right);
+  }
+  postorder(func, root = this._root) {
+    if (!root) {
+      return;
+    }
+    this.postorder(func, root.left);
+    this.postorder(func, root.right);
+    func(root);
+  }
+  height(root = this._root) {
+    if (!root) {
+      return -1;
+    }
+    let leftHeight = this.height(root.left);
+    let rightHeight = this.height(root.right);
+    return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+  }
+  depth(node, root = this._root, currentDepth = 0) {
+    node.depth = currentDepth;
+    if (node.data < root.data) {
+      currentDepth += 1;
+      root = this.depth(node, root.left, currentDepth);
+    } else if (node.data > root.data) {
+      currentDepth += 1;
+      root = this.depth(node, root.right, currentDepth);
+    }
+    return node.depth;
+  }
 }
 function buildTree(arr, start, end) {
   if (start > end) {
