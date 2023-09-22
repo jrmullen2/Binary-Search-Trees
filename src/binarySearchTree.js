@@ -101,6 +101,27 @@ export default class BinaryST {
     }
     return node.depth;
   }
+  isBalanced(root = this._root, balanced = true) {
+    if (!root) {
+      return true;
+    }
+    if (
+      this.height(root.left) - this.height(root.right) >= 2 ||
+      this.height(root.left) - this.height(root.right) <= -2
+    ) {
+      balanced = false;
+    }
+    this.isBalanced(root.left, balanced);
+    this.isBalanced(root.right, balanced);
+    return balanced;
+  }
+  rebalance(root = this._root) {
+    if (!root) {
+      return;
+    }
+    this.inorder(collectData, root);
+    this._root = buildTree(array, 0, array.length - 1);
+  }
 }
 function buildTree(arr, start, end) {
   if (start > end) {
@@ -193,4 +214,8 @@ function findNode(root, value) {
     root = findNode(root.left, value);
     return root;
   }
+}
+const array = [];
+function collectData(node) {
+  array.push(node.data);
 }
